@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  devops-checks:
+    name: Run DevOps checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run hello.py
+        run: python hello.py
+
+      - name: Make sysinfo.sh executable
+        run: chmod +x scripts/sysinfo.sh
+
+      - name: Run sysinfo.sh
+        run: ./scripts/sysinfo.sh
+
+      - name: Build Docker image
+        run: docker build -t hello-devops:ci .
+
+      - name: Run Docker container smoke test
+        run: docker run --rm hello-devops:ci

@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.git/
+.github/
+docs/
+monitoring/
+nomad/
+mlflow/
+mlruns/
+.gitignore
+README.md

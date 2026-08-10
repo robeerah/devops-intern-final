@@ -1,0 +1,92 @@
+Grafana Loki Setup Notes
+Author: Rofiat Ahmed Sholagberu
+Date: August 10, 2026
+
+Purpose
+-------
+This file documents how Loki was started locally and how container logs were forwarded to Loki for querying.
+
+1. Start Loki and Promtail
+--------------------------
+
+The easiest local setup is using Docker Compose from the monitoring directory:
+
+    cd monitoring
+    docker compose up -d
+
+This starts:
+
+    Loki:
+        http://localhost:3100
+
+    Promtail:
+        Scrapes Docker container JSON logs and forwards them to Loki.
+
+Manual Loki-only command:
+
+    docker run -d \
+      --name loki \
+      -p 3100:3100 \
+      grafana/loki:3.2.0
+
+2. Log forwarding method
+------------------------
+
+This project uses Promtail to read Docker container logs from:
+
+    /var/lib/docker/containers/*/*-json.log
+
+Promtail forwards those logs to Loki using:
+
+    http://loki:3100/loki/api/v1/push
+
+The Promtail configuration is stored in:
+
+    monitoring/promtail-config.yml
+
+3. Generate application logs
+---------------------------
+
+Run the Docker container:
+
+    docker run --rm hello-devops:latest
+
+Expected application output:
+
+    Hello, DevOps!
+
+The container log will be scraped by Promtail and sent to Loki.
+
+4. Commands used to view logs
+------------------------------
+
+If LogCLI is installed:
+
+    logcli labels --addr=http://localhost:3100
+
+    logcli query '{job="docker"}' --addr=http://localhost:3100 --tail
+
+If LogCLI is not installed, use curl:
+
+    curl -G -s "http://localhost:3100/loki/api/v1/query_range" \
+      --data-urlencode 'query={job="docker"}' | jq
+
+5. Optional Grafana integration
+-------------------------------
+
+If running Grafana:
+
+    Add Loki as a data source.
+
+    Loki URL:
+        http://loki:3100
+
+    Example query in Grafana Explore:
+        {job="docker"}
+
+6. Notes
+--------
+
+- Logs may take a few seconds to appear in Loki.
+- On Linux, Promtail can read Docker JSON logs directly when /var/lib/docker/containers is mounted.
+- If using Docker Desktop, host path behavior may differ. In that case, use the Loki Docker logging driver plugin or run Promtail on the Docker host.
