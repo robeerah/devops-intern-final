@@ -1,8 +1,8 @@
 # DevOps Intern Final Assessment
 
-![CI](https://github.com/YOUR_GITHUB_USERNAME/devops-intern-final/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/robeerah/devops-intern-final/actions/workflows/ci.yml/badge.svg)
 
-**Author:** [Your Name]  
+**Author:** Rofiat Ahmed Sholagberu  
 **Date:** August 10, 2026  
 **Repository:** `devops-intern-final`
 
