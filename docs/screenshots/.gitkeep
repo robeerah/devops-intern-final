@@ -1,0 +1,16 @@
+# This file ensures the docs/screenshots directory is tracked by git.
+# Keep this file present (empty or with this note) to retain the directory in the repository.
+
+$CURSOR$
+![alt text](ass.png)
+![alt text](Screenshot1.png)
+![alt text](<Screenshot 2.png>)
+![alt text](nomad1.png)
+![alt text](<nomad 2.png>)
+![alt text](<nomad 1.png>)
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+![alt text](nomad.png)
+

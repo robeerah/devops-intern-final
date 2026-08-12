@@ -21,10 +21,6 @@ job "hello-devops" {
     task "hello" {
       driver = "docker"
 
-      env {
-        PORT = "${NOMAD_PORT_http}"
-      }
-
       config {
         image      = "hello-devops:latest"
         command    = "python"
